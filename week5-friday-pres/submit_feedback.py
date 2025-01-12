@@ -2,44 +2,7 @@
 # It servers as the client-side component and simulates a client sending data to the web service
 
 import os
-import requests
-
-# Function to process the file, same as in main.py
-def process_file(file_path):
-    """
-    Process/Reads the content of a text file and return a dictionary with relevant information.
-    Extracts: title, name, date, feedback.
-    """
-    feedback_dict = {}
-    try:
-        with open(file_path, 'r') as file:
-            lines = file.readlines()
-            if len(lines) >= 4:
-                feedback_dict['title'] = lines[0].strip()
-                feedback_dict['name'] = lines[1].strip()
-                feedback_dict['date'] = lines[2].strip()
-                feedback_dict['feedback'] = lines[3].strip()
-            else:
-                print(f"The file {file_path} does not contain enough lines.")
-    except IOError as e:
-        print(f"Error reading file {file_path}: {e}")
-
-    return feedback_dict
-
-# Function to upload data to web service, same as in main.py
-def upload_to_web_service(data):
-    """
-    Send a POST request to the web service with the data.
-    """
-    url = "http://localhost:8000/feedback"
-    try:
-        response = requests.post(url, json=data)
-        response.raise_for_status()
-        print(f"Successfully uploaded data: {data}")
-        return True
-    except requests.exceptions.RequestException as e:
-        print(f"Failed to upload data: {e}")
-        return False
+from utils import process_file, upload_to_web_service
     
 # Main function that checks the feedback directory, lists all feedback files, processes each file to extract information, uploads the data to a web service, and logs the results of each step
 def main():
