@@ -1,0 +1,32 @@
+<!-- Displays a list of feedback titles as a clickable link to view detailed feedback -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback Information</title>
+    <!-- Linking to CSS sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"
+</head>
+<body>
+    <h1>Feedback Information</h1>
+    <!-- Flask template syntax to check if any feedback data is available -->
+    {% if feedbacks %} 
+        <h3>Feedback Details</h3>
+        <ul>
+            <!-- Loop through each feedback item -->
+        {% for item in feedbacks %}
+            <!-- Creates a list item with a clickable link to the feedback details page -->
+            <li><a href="{{ url_for('show_feedback', filename=item['file']) }}">{{ item['feedback']['title'] }}</a></li>
+        <!-- Ends the loop -->
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No feedback information available.</p>
+    <!-- Ends the if statement -->
+    {% endif %}
+</body>
+</html>
+
+
+

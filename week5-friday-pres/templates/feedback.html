@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Sets the title of the document to the feedback's title, using Flask template syntax -->
+    <title>{{ feedback['title'] }}</title>
+</head>
+<body>
+    <!-- Displays the feedback's title as the main heading -->
+    <h1>{{ feedback['title'] }}</h1>
+    <ul>
+        <li>Name: {{ feedback['name'] }}</li>
+        <li>Date: {{ feedback['date'] }}</li>
+        <li>Feedback: {{ feedback['feedback'] }}</li>
+    </ul>
+    <!-- Provides a link to go back to the feedback list page -->
+    <a href="{{ url_for('home') }}">Back to Feedback List</a>
+</body>
+</html>
