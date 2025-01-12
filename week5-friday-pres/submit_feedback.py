@@ -1,13 +1,14 @@
 # This page reads feedback files and uploads their contentst to the Flask web service using POST requests.
-# It simulates a client sending data to the web service
+# It servers as the client-side component and simulates a client sending data to the web service
 
 import os
 import requests
 
+# Function to process the file, same as in main.py
 def process_file(file_path):
     """
-    Process the content of a text file and return a dictionary with relevant information.
-    Should extract: title, name, date, feedback.
+    Process/Reads the content of a text file and return a dictionary with relevant information.
+    Extracts: title, name, date, feedback.
     """
     feedback_dict = {}
     try:
@@ -25,6 +26,7 @@ def process_file(file_path):
 
     return feedback_dict
 
+# Function to upload data to web service, same as in main.py
 def upload_to_web_service(data):
     """
     Send a POST request to the web service with the data.
@@ -38,23 +40,24 @@ def upload_to_web_service(data):
     except requests.exceptions.RequestException as e:
         print(f"Failed to upload data: {e}")
         return False
-
+    
+# Main function that checks the feedback directory, lists all feedback files, processes each file to extract information, uploads the data to a web service, and logs the results of each step
 def main():
-    feedback_dir = 'data/feedback'
-    if not os.path.isdir(feedback_dir):
-        print(f"Invalid directory: {feedback_dir}")
+    feedback_dir = 'data/feedback' # Specifies the directory where feedback files are located
+    if not os.path.isdir(feedback_dir): # Checks if feedback_dir is a valid directory
+        print(f"Invalid directory: {feedback_dir}") # Prints error message if not valid
         return
 
-    files = [f for f in os.listdir(feedback_dir) if f.endswith('.txt')]
-    if not files:
+    files = [f for f in os.listdir(feedback_dir) if f.endswith('.txt')] # Lists all .txt files in the feedback_dir
+    if not files: # Checks if list of .txt files is empty
         print("No files to process")
         return
     
-    for file in files:
-        file_path = os.path.join(feedback_dir, file)
-        feedback_dict = process_file(file_path)
-        if feedback_dict:
-            success = upload_to_web_service(feedback_dict)
+    for file in files: # Iterates through each .txt file in files list
+        file_path = os.path.join(feedback_dir, file) # Creates full file path by joining directory path and file name
+        feedback_dict = process_file(file_path) # Calls process_file function and passes full file path to it to get the dictionary with extracted feedback info
+        if feedback_dict: # Checks if the returned dictionary is valid
+            success = upload_to_web_service(feedback_dict) # If success, calls upload_to_web_service function and passes the feedback dictionary
             if success:
                 print(f"Uploaded feedback from {file}")
             else:
